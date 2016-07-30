@@ -106,7 +106,10 @@
 
             if (get_new_state(cells)) node.style.backgroundColor = alive_color;else node.style.backgroundColor = dead_color;
 
-            return node;
+            return {
+                node: node,
+                state: state
+            };
         };
 
         return {
@@ -165,7 +168,7 @@
 
             for (let x = 0; x < cells.length; x++) {
                 for (let y = 0; y < cells.length; y++) {
-                    grid.appendChild(cells[x][y].update(cells));
+                    grid.appendChild(cells[x][y].update(cells).node);
                 }
             }
         };
