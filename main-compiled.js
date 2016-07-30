@@ -20,7 +20,7 @@
                 state = true;
             }
 
-            if ([12].indexOf(y) !== -1 && [7].indexOf(x) !== -1) {
+            if ([12, 13, 14].indexOf(y) !== -1 && [7].indexOf(x) !== -1) {
                 state = true;
             }
 
@@ -81,7 +81,6 @@
         const get_new_state = cells => {
             let count = count_alive_neighbors(cells);
 
-            //count = Math.random() > 0.5 ? 1 : 3;
             if (state && count < 2) //  Live cell with less than 2 live cells
                 state = false;
 
@@ -196,7 +195,11 @@
         grid.init(width, height);
 
         // update on intervals
-        setInterval(grid.update, 600);
+        let handle = setInterval(grid.update, 600);
+
+        doc.querySelector("#stop").addEventListener("click", function () {
+            clearInterval(handle);
+        });
     }
 
     new Game(200, 200);
