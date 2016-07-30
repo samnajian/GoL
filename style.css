@@ -1,0 +1,10 @@
+body{
+    background: #eee;
+}
+
+#grid{
+    margin: 100px auto;
+    display: block;
+    background: #fff;
+    padding: 0;
+}
