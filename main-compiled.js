@@ -2,7 +2,7 @@
 
 (function (doc, win) {
 
-    function Cell(x, y) {
+    function Cell() {
         let cell_width = 10,
             node = doc.createElement("span"),
             state = false,
@@ -43,16 +43,15 @@
 
             for (let y = 0; y < width; y++) {
                 for (let x = 0; x < height; x++) {
-                    cells[x] = cells[x] || [];
-                    let cell = Cell(x, y);
+                    cells[y] = cells[y] || [];
+                    let cell = Cell();
                     cell.node.addEventListener("click", e => {
-
-                        (function (cell) {
+                        (function (cell, x, y) {
                             cell.state = true;
                             cell.node.style.backgroundColor = alive_color;
-                        })(cell);
+                        })(cell, x, y);
                     });
-                    cells[x][y] = cell;
+                    cells[y][x] = cell;
                 }
             }
         };
@@ -68,11 +67,11 @@
             grid.style.width = width + "px";
             grid.style.height = height + "px";
 
-            for (let x = 0; x < cells.length; x++) {
-                for (let y = 0; y < cells.length; y++) {
+            cells.forEach((row, y) => {
+                row.forEach((cell, x) => {
                     grid.appendChild(cells[x][y].node);
-                }
-            }
+                });
+            });
         };
 
         /**
@@ -82,9 +81,16 @@
         const update = () => {
             grid.innerHTML = ""; // remove prev state from DOM
             next_gen = [];
+
             for (let y = 0; y < cells.length; y++) {
                 for (let x = 0; x < cells.length; x++) {
-                    grid.appendChild(update_cell(x, y).node);
+                    update_cell(x, y);
+                }
+            }
+
+            for (let y = 0; y < cells.length; y++) {
+                for (let x = 0; x < cells.length; x++) {
+                    grid.appendChild(next_gen[x][y].node);
                 }
             }
 
@@ -174,7 +180,7 @@
             next_gen[x] = next_gen[x] || [];
             next_gen[x][y] = Cell(x, y);
 
-            next_gen[x][y].state = get_new_state(x, y, next_gen[x][y]);
+            next_gen[x][y].state = get_new_state(x, y, cells[x][y]);
             if (next_gen[x][y].state) next_gen[x][y].node.style.backgroundColor = alive_color;else next_gen[x][y].node.style.backgroundColor = dead_color;
 
             return next_gen[x][y];
@@ -198,6 +204,8 @@
             if (timer_handle) clearInterval(timer_handle);
 
             timer_handle = false;
+
+            grid.init(width, height);
         });
 
         doc.querySelector("#start").addEventListener("click", function () {
