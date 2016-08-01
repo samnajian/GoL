@@ -6,27 +6,17 @@
         let cell_width = 10,
             node = doc.createElement("span"),
             state = false,
-            dead_color = "#ccc",
-            alive_color = "green";
+            dead_color = "#ccc";
 
-        (function () {
-            // init cell
-
-            if ([10].indexOf(y) !== -1 && [6, 7, 8].indexOf(x) !== -1) {
-                state = true;
-            }
-
-            node.style.width = cell_width + "px";
-            node.style.height = cell_width + "px";
-            node.style.display = "inline-block";
-            node.style.border = "1px solid #fff";
-            node.style.margin = 0;
-            node.style.padding = 0;
-            node.style.float = "left";
-            node.style.boxSizing = "border-box";
-
-            if (state) node.style.backgroundColor = alive_color;else node.style.backgroundColor = dead_color;
-        })();
+        node.style.width = cell_width + "px";
+        node.style.height = cell_width + "px";
+        node.style.display = "inline-block";
+        node.style.border = "1px solid #fff";
+        node.style.margin = 0;
+        node.style.padding = 0;
+        node.style.float = "left";
+        node.style.boxSizing = "border-box";
+        node.style.backgroundColor = dead_color;
 
         return {
             state: state,
@@ -54,7 +44,15 @@
             for (let y = 0; y < width; y++) {
                 for (let x = 0; x < height; x++) {
                     cells[x] = cells[x] || [];
-                    cells[x][y] = new Cell(x, y);
+                    let cell = Cell(x, y);
+                    cell.node.addEventListener("click", e => {
+
+                        (function (cell) {
+                            cell.state = true;
+                            cell.node.style.backgroundColor = alive_color;
+                        })(cell);
+                    });
+                    cells[x][y] = cell;
                 }
             }
         };
