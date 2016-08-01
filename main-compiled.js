@@ -31,6 +31,7 @@
             node.style.margin = 0;
             node.style.padding = 0;
             node.style.float = "left";
+            node.style.boxSizing = "border-box";
 
             if (state) node.style.backgroundColor = alive_color;else node.style.backgroundColor = dead_color;
         })();
@@ -149,8 +150,8 @@
          */
         const initial_draw = (width, height) => {
             grid.innerHTML = "";
-            grid.style.width = width + width * 2 / cell_width - 3 + "px";
-            grid.style.height = height + height * 2 / cell_width - 3 + "px";
+            grid.style.width = width + "px";
+            grid.style.height = height + "px";
 
             for (let x = 0; x < cells.length; x++) {
                 for (let y = 0; y < cells.length; y++) {
