@@ -46,10 +46,15 @@
                     cells[y] = cells[y] || [];
                     let cell = Cell();
                     cell.node.addEventListener("click", e => {
-                        (function (cell, x, y) {
-                            cell.state = true;
-                            cell.node.style.backgroundColor = alive_color;
-                        })(cell, x, y);
+                        (function (cell) {
+                            if (cell.state) {
+                                cell.state = false;
+                                cell.node.style.backgroundColor = dead_color;
+                            } else {
+                                cell.state = true;
+                                cell.node.style.backgroundColor = alive_color;
+                            }
+                        })(cell);
                     });
                     cells[y][x] = cell;
                 }
