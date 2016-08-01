@@ -190,16 +190,19 @@
 
     function Game(width, height) {
         let cells = [],
-            grid = new Grid(cells);
+            grid = new Grid(cells),
+            timer_handle;
 
         // init
         grid.init(width, height);
 
-        // update on intervals
-        let handle = setInterval(grid.update, 600);
-
         doc.querySelector("#stop").addEventListener("click", function () {
-            clearInterval(handle);
+            if (timer_handle) clearInterval(timer_handle);
+        });
+
+        doc.querySelector("#start").addEventListener("click", function () {
+            // update on intervals
+            timer_handle = setInterval(grid.update, 600);
         });
     }
 

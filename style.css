@@ -3,14 +3,20 @@ body{
 }
 
 #grid{
-    margin: 100px auto;
+    margin: 100px auto 30px auto;
     display: block;
     background: #fff;
     padding: 0;
 }
-#stop{
-    margin: 10px auto;
+#controls{
+    max-width: 400px;
+    margin: 0 auto;
     display: block;
+    text-align: center;
+}
+button{
+    margin: 10px auto;
+    display: inline-block;
     border: none;
     background: #000;
     color: #fff;
