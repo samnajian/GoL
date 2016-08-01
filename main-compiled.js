@@ -189,18 +189,21 @@
     function Game(width, height) {
         let cells = [],
             grid = new Grid(cells),
-            timer_handle;
+            timer_handle = false;
 
         // init
         grid.init(width, height);
 
         doc.querySelector("#stop").addEventListener("click", function () {
             if (timer_handle) clearInterval(timer_handle);
+
+            timer_handle = false;
         });
 
         doc.querySelector("#start").addEventListener("click", function () {
-            // update on intervals
-            timer_handle = setInterval(grid.update, 600);
+
+            if (!timer_handle) // update on intervals
+                timer_handle = setInterval(grid.update, 600);
         });
     }
 
