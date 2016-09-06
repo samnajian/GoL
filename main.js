@@ -95,20 +95,9 @@
         const update = () => {
             grid.innerHTML = ""; // remove prev state from DOM
             next_gen = [];
-
-            for( let y = 0; y < cells.length; y++ ){
-                for( let x = 0; x < cells.length; x++ ){
-                    update_cell(x, y)
-                }
-            }
-
-            for( let y = 0; y < cells.length; y++ ){
-                for( let x = 0; x < cells.length; x++ ){
-                    grid.appendChild( next_gen[x][y].node );
-                }
-            }
-
+            cells.map( ( row, y ) =>  row.map( ( col, x ) =>  grid.appendChild(  update_cell(x, y).node )  ) );
             cells = next_gen;
+
         };
 
         /**
@@ -196,13 +185,14 @@
          */
         const update_cell = ( x, y ) => {
             next_gen[x] = next_gen[x] || [];
-            next_gen[x][y] = Cell(x, y);
+            next_gen[x][y] = Object.assign({}, cells[x][y], {
+                state : get_new_state( x, y, cells[x][y] )
+            });
 
-            next_gen[x][y].state = get_new_state( x, y, cells[x][y] );
-            if( next_gen[x][y] .state )
-                next_gen[x][y] .node.style.backgroundColor = alive_color;
+            if( next_gen[x][y].state )
+                next_gen[x][y].node.style.backgroundColor = alive_color;
             else
-                next_gen[x][y] .node.style.backgroundColor = dead_color;
+                next_gen[x][y].node.style.backgroundColor = dead_color;
 
             return next_gen[x][y];
         };
