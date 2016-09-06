@@ -208,6 +208,7 @@
     function Game( width, height  ){
         let cells = [],
             grid = new Grid( cells ),
+            speed = 600,
             timer_handle = false;
 
         // init
@@ -227,9 +228,22 @@
         doc.querySelector("#start").addEventListener("click", function(){
 
             if( !timer_handle ) // update on intervals
-                timer_handle = setInterval(grid.update, 600);
+                timer_handle = setInterval(grid.update, speed);
         });
 
+        doc.querySelector("#speed-range").addEventListener("change", e => {
+            doc.querySelector("#speed-label").innerHTML = e.target.value;
+            speed = ( 100 -  parseFloat( e.target.value ) ) * 10;
+            if( e.target.value > 0 ){
+                if( timer_handle ) // update on intervals
+                    clearInterval( timer_handle );
+                timer_handle = setInterval(grid.update, speed);
+            }
+
+
+            if(  e.target.value == 0  )
+                 clearInterval( timer_handle );
+        });
     }
 
 
